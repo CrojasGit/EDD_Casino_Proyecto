@@ -1,5 +1,6 @@
 # EDD_Casino_Proyecto
 <hr>
+
 ## Integrantes
 Carlos, Allandryo, Aleix, Sergio Sans
 <hr>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruleta Casino</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Josefin+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="ruleta.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>♠ Grand Casino Roulette ♠</h1>
+    </header>
+
+    <div id="timer-wrap">
+        <div id="timer-bar"></div>
+    </div>
+    <div id="timer-label">Próximo giro en <span id="timer-count">20</span>s</div>
+
+    <div id="app">
+
+        <!-- ── LEFT PANEL ── -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+
+            <div class="panel">
+                <div class="panel-title">💰 Mi Saldo</div>
+                <div id="saldo-display"><span>Fichas</span><span id="saldo-num">1000</span></div>
+                <div id="apuesta-actual">Apostar: <strong id="ficha-sel-label">—</strong></div>
+                <button class="btn" id="btn-comprar">Comprar fichas</button>
+                <button class="btn danger" id="btn-retirar-apuestas">Retirar apuestas</button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">🎰 Fichas</div>
+                <div class="fichas-grid">
+                    <div class="ficha" data-val="500">500</div>
+                    <div class="ficha" data-val="100">100</div>
+                    <div class="ficha" data-val="50">50</div>
+                    <div class="ficha" data-val="20">20</div>
+                    <div class="ficha" data-val="10">10</div>
+                    <div class="ficha" data-val="5">5</div>
+                    <div class="ficha" data-val="1">1</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">📊 Apuestas activas</div>
+                <div id="active-bets-list" style="font-size:0.72rem;max-height:160px;overflow-y:auto;"></div>
+                <div style="margin-top:8px;text-align:center;font-size:0.8rem;color:var(--gold);">
+                    Total: <strong id="total-apostado">0</strong>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── CENTER ── -->
+        <div id="center-col">
+
+            <div class="panel" style="text-align:center;padding:10px 14px;">
+                <div id="result-display">
+                    <span id="result-num" style="min-width:60px;">—</span>
+                    <span id="result-badge" class="result-badge"></span>
+                </div>
+                <div id="recent-numbers"></div>
+            </div>
+
+            <div style="display:flex;justify-content:center;">
+                <div id="wheel-wrap">
+                    <canvas id="wheel-canvas" width="500" height="500"></canvas>
+                    <div id="needle"></div>
+                    <div id="center-hub">🎲</div>
+                </div>
+            </div>
+
+            <div class="panel" id="bet-table">
+                <div class="panel-title">🎯 Mesa de Apuestas — Click para apostar</div>
+                <div id="numbers-grid"></div>
+                <div id="dozens-row"></div>
+                <div id="columns-row"></div>
+                <div id="outside-bets"></div>
+            </div>
+
+        </div>
+
+        <!-- ── RIGHT PANEL ── -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+
+            <div class="panel">
+                <div class="panel-title">📜 Pagos</div>
+                <div style="font-size:0.68rem;line-height:2;color:rgba(255,255,255,0.75);">
+                    Pleno (número) <span style="float:right;color:var(--gold);">35:1</span><br>
+                    Dividida (2 núm) <span style="float:right;color:var(--gold);">17:1</span><br>
+                    Calle (3 núm) <span style="float:right;color:var(--gold);">11:1</span><br>
+                    Cuadro (4 núm) <span style="float:right;color:var(--gold);">8:1</span><br>
+                    Seisena (6 núm) <span style="float:right;color:var(--gold);">5:1</span><br>
+                    Docena/Columna <span style="float:right;color:var(--gold);">2:1</span><br>
+                    Rojo/Negro <span style="float:right;color:var(--gold);">1:1</span><br>
+                    Par/Impar <span style="float:right;color:var(--gold);">1:1</span><br>
+                    Falta/Pasa <span style="float:right;color:var(--gold);">1:1</span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">🕐 Historial</div>
+                <div id="log"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SPIN OVERLAY -->
+    <div id="spin-overlay">
+        <div id="spin-msg">¡La ruleta gira!</div>
+    </div>
+
+    <!-- MODAL COMPRAR FICHAS -->
+    <div id="modal-overlay" class="hidden">
+        <div id="modal-box">
+            <h2>Comprar Fichas</h2>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:14px;">Selecciona el paquete</p>
+            <div class="modal-btn-grid">
+                <button class="buy-opt" data-amount="100">100 <br><small
+                        style="color:var(--gold-dark);">€5</small></button>
+                <button class="buy-opt" data-amount="500">500 <br><small
+                        style="color:var(--gold-dark);">€20</small></button>
+                <button class="buy-opt" data-amount="1000">1.000 <br><small
+                        style="color:var(--gold-dark);">€35</small></button>
+                <button class="buy-opt" data-amount="2500">2.500 <br><small
+                        style="color:var(--gold-dark);">€80</small></button>
+                <button class="buy-opt" data-amount="5000">5.000 <br><small
+                        style="color:var(--gold-dark);">€140</small></button>
+                <button class="buy-opt" data-amount="10000">10.000 <br><small
+                        style="color:var(--gold-dark);">€250</small></button>
+            </div>
+            <button class="btn" id="modal-close">Cancelar</button>
+        </div>
+    </div>
+    <script src="ruleta.js"></script>
+</body>
+
+</html>

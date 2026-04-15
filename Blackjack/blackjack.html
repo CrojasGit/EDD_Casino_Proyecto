@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <meta name="description" content="Juego de Blackjack minimalista desarrollado en HTML, CSS y JS puro.">
+    <!-- Fuente Inter limpia y moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Pantalla de Inicio -->
+        <div id="start-screen" class="screen">
+            <h1>Blackjack</h1>
+            <button id="start-btn" class="btn primary btn-xl">Empezar juego</button>
+            <div class="rules">
+                <ul>
+                    <li>1. Llega lo más cerca posible de 21</li>
+                    <li>2. No te pases de 21</li>
+                    <li>3. Gana al crupier</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Pantalla de Juego -->
+        <div id="game-screen" class="screen hidden">
+            <!-- Área del Crupier -->
+            <div class="dealer-area">
+                <div class="score-container">Crupier <span id="dealer-score">?</span></div>
+                <div id="dealer-cards" class="cards-container"></div>
+            </div>
+            
+            <!-- Mensaje central de resultado -->
+            <div id="message-area" class="message-area"></div>
+
+            <!-- Área del Jugador -->
+            <div class="player-area">
+                <div id="player-cards" class="cards-container"></div>
+                <div class="score-container">Tú <span id="player-score">0</span></div>
+            </div>
+
+            <!-- Controles -->
+            <div class="controls-area">
+                <button id="hit-btn" class="btn">Pedir carta</button>
+                <button id="stand-btn" class="btn">Plantarse</button>
+                <button id="double-btn" class="btn">Doble</button>
+                <button id="restart-btn" class="btn primary hidden">Jugar de nuevo</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

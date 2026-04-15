@@ -1,0 +1,299 @@
+:root {
+    --bg-color: #0d1410; /* Verde muy oscuro casi negro */
+    --accent-color: #1ed760; /* Verde brillante tipo casino/Spotify */
+    --accent-hover: #1ab852;
+    --text-primary: #ffffff;
+    --text-secondary: #a0aab2;
+    --card-bg: #ffffff;
+    --card-text-black: #111111;
+    --card-text-red: #d32f2f;
+    --table-bg: #142218;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Un ligero patrón oscuro de fondo */
+    background-image: radial-gradient(circle at 50% 50%, #15251a 0%, var(--bg-color) 100%);
+}
+
+#app {
+    width: 100%;
+    max-width: 900px;
+    height: 100vh;
+    max-height: 900px;
+    background: rgba(20, 34, 24, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    #app {
+        height: 90vh;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+    }
+}
+
+.screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.screen.hidden {
+    display: none !important;
+}
+
+/* Pantalla de Inicio */
+#start-screen {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#start-screen h1 {
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    letter-spacing: -2px;
+    text-shadow: 0 4px 30px rgba(30, 215, 96, 0.4);
+}
+
+.rules {
+    margin-top: 4rem;
+    background: rgba(0,0,0,0.3);
+    padding: 1.5rem 2.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.rules ul {
+    text-align: left;
+}
+
+.rules li {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 0.8rem 0;
+    list-style: none;
+}
+
+/* Botones */
+.btn {
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn-xl {
+    font-size: 1.4rem;
+    padding: 1.2rem 3rem;
+    border-radius: 12px;
+}
+
+.btn:hover:not(:disabled) {
+    background-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: #000;
+    border: none;
+    box-shadow: 0 0 20px rgba(30, 215, 96, 0.2);
+}
+
+.btn.primary:hover:not(:disabled) {
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 30px rgba(30, 215, 96, 0.4);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: rgba(255,255,255,0.05);
+    border-color: transparent;
+}
+
+/* Pantalla de Juego */
+#game-screen {
+    justify-content: space-between;
+}
+
+.dealer-area, .player-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.dealer-area {
+    justify-content: flex-start;
+}
+
+.player-area {
+    justify-content: flex-end;
+}
+
+.score-container {
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: rgba(0,0,0,0.5);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.score-container span {
+    background: var(--accent-color);
+    color: #000;
+    padding: 0.1rem 0.6rem;
+    border-radius: 12px;
+}
+
+.cards-container {
+    display: flex;
+    gap: -20px; /* Sobreposición negativa para estilo de mano */
+    min-height: 140px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    padding: 10px;
+}
+
+.card {
+    width: 90px;
+    height: 130px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 12px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    box-shadow: -4px 4px 15px rgba(0,0,0,0.4);
+    animation: dealCard 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    margin-right: -40px; /* Superposición de cartas */
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.card:last-child {
+    margin-right: 0;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    z-index: 10;
+}
+
+@keyframes dealCard {
+    from { 
+        opacity: 0; 
+        transform: translateY(-50px) scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+.card.hidden-card {
+    background: repeating-linear-gradient(
+        45deg,
+        #111,
+        #111 10px,
+        #1c2e22 10px,
+        #1c2e22 20px
+    );
+    border: 3px solid #fff;
+    box-shadow: inset 0 0 0 2px #111, -4px 4px 15px rgba(0,0,0,0.4);
+}
+
+.card.red { color: var(--card-text-red); }
+.card.black { color: var(--card-text-black); }
+
+.card-top, .card-bottom {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.card-bottom {
+    transform: rotate(180deg);
+    justify-content: flex-start;
+}
+
+.message-area {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    z-index: 5;
+}
+
+.message-danger { color: #ff4757; text-shadow: 0 4px 20px rgba(255,71,87,0.3); }
+.message-success { color: var(--accent-color); text-shadow: 0 4px 20px rgba(30,215,96,0.3); }
+.message-tie { color: #ffa502; text-shadow: 0 4px 20px rgba(255,165,2,0.3); }
+
+.controls-area {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    #start-screen h1 { font-size: 3rem; }
+    .rules { padding: 1rem; }
+    .btn { padding: 0.8rem 1.2rem; font-size: 1rem; }
+    .btn-xl { padding: 1rem 2rem; font-size: 1.2rem; }
+    .card { width: 70px; height: 100px; font-size: 1.3rem; margin-right: -30px; }
+    .cards-container { min-height: 110px; }
+    .controls-area { gap: 0.5rem; }
+    .message-area { font-size: 1.8rem; }
+}

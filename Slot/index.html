@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Slot</title>
+    <!-- Fuentes limpias modernas de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="slot-machine">
+        
+        <header class="machine-header">
+            <h1>SLOTS</h1>
+        </header>
+
+        <!-- Panel Superior (Estadisticas) -->
+        <div class="stats-panel">
+            <div class="stat-box">
+                <span class="stat-label">SALDO</span>
+                <span id="balance-display" class="stat-value">1000</span>
+            </div>
+            <div class="stat-box win-box">
+                <span class="stat-label">PREMIO</span>
+                <span id="win-display" class="stat-value highlight">0</span>
+            </div>
+        </div>
+
+        <!-- Contenedor Principal de Rodillos -->
+        <div class="reels-container">
+            <!-- Los rodillos están conteniendo la 'cinta' interior donde se crearán dinámicamente los símbolos -->
+            <div class="reel" id="reel-1"><div class="reel-strip"></div></div>
+            <div class="reel" id="reel-2"><div class="reel-strip"></div></div>
+            <div class="reel" id="reel-3"><div class="reel-strip"></div></div>
+            
+            <div class="reels-overlay"></div>
+        </div>
+
+        <!-- Controles de Jugador Inferiores -->
+        <div class="controls-panel">
+            
+            <div class="bet-controls">
+                <button id="btn-bet-minus" class="btn-secondary">-</button>
+                <div class="bet-display-box">
+                    <span class="stat-label">APUESTA</span>
+                    <span id="bet-display" class="stat-value-small">10</span>
+                </div>
+                <button id="btn-bet-plus" class="btn-secondary">+</button>
+            </div>
+
+            <div class="action-controls">
+                <label class="auto-toggle">
+                    <input type="checkbox" id="toggle-auto">
+                    <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                    </span>
+                    <span class="toggle-label-text">AUTO</span>
+                </label>
+                <button id="btn-spin" class="btn-primary">GIRAR</button>
+            </div>
+        </div>
+
+        <!-- Modal: Saldo Acabado -->
+        <div id="reload-overlay" class="modal-overlay hidden">
+            <div class="modal">
+                <h2>Sin Saldo</h2>
+                <p>Te has quedado sin monedas para continuar.</p>
+                <button id="btn-reload" class="btn-primary">Recargar (+1000)</button>
+            </div>
+        </div>
+
+        <!-- Modal: Jackpot Ganado -->
+        <div id="jackpot-overlay" class="modal-overlay hidden">
+            <div class="modal jackpot-modal">
+                <h1>🎉 JACKPOT 🎉</h1>
+                <h2 id="jackpot-amount"></h2>
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chips &amp; Chips - Casino Game</title>
+    <link rel="stylesheet" href="pollo.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- PANTALLA DE INICIO -->
+        <div id="start-screen" class="screen active">
+            <div class="logo-container">
+                <h1 class="logo">Chips &amp; Chips</h1>
+                <p class="subtitle">El juego del pollo</p>
+            </div>
+            <div class="menu-buttons">
+                <button id="btn-new-game" type="button" class="btn btn-primary">
+                    <span class="btn-icon">🎮</span>
+                    Nuevo Juego
+                </button>
+                <button id="btn-load-game" class="btn btn-secondary">
+                    <span class="btn-icon">📂</span>
+                    Cargar Partida
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA CARGAR JUGADOR -->
+        <div id="load-player-screen" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-load" class="btn btn-back">← Volver</button>
+                <h2>Cargar Jugador</h2>
+            </div>
+            <div class="load-player-content">
+                <div class="file-input-container">
+                    <label for="save-file-input" class="file-label">
+                        <span class="file-icon">📁</span>
+                        Seleccionar archivo de guardado
+                    </label>
+                    <input type="file" id="save-file-input" accept=".json" class="file-input">
+                    <p class="file-name" id="file-name">Ningún archivo seleccionado</p>
+                </div>
+                <button id="btn-confirm-load" class="btn btn-primary" disabled>
+                    Cargar Datos
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA CONFIGURACIÓN INICIAL -->
+        <div id="setup-screen" class="screen">
+            <div class="screen-header">
+                <h2>Configurar Partida</h2>
+            </div>
+            <div class="setup-content">
+                <div class="player-info">
+                    <div class="info-row">
+                        <span class="info-label">Jugador:</span>
+                        <span class="info-value" id="setup-player-name">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Dinero disponible:</span>
+                        <span class="info-value money" id="setup-player-money">0 €</span>
+                    </div>
+                </div>
+
+                <div class="bet-config">
+                    <div class="input-group">
+                        <label for="setup-bet-amount">Cantidad a apostar:</label>
+                        <div class="money-input-wrapper">
+                            <input type="number" id="setup-bet-amount" min="1" value="10">
+                            <span class="currency">€</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="setup-difficulty">Dificultad:</label>
+                        <select id="setup-difficulty">
+                            <option value="easy">Fácil (50% riesgo)</option>
+                            <option value="medium" selected>Medio (65% riesgo)</option>
+                            <option value="hard">Difícil (80% riesgo)</option>
+                        </select>
+                    </div>
+
+                    <div class="difficulty-preview">
+                        <span class="preview-label">Multiplicador estimado:</span>
+                        <span class="preview-value" id="multiplier-preview">x2.0</span>
+                    </div>
+                </div>
+
+                <button id="btn-start-play" class="btn btn-primary btn-large">
+                    <span class="btn-icon">▶️</span>
+                    ¡JUGAR!
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA DE JUEGO -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="player-stats">
+                    <div class="stat">
+                        <span class="stat-label">Jugador</span>
+                        <span class="stat-value" id="game-player-name">-</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Dinero</span>
+                        <span class="stat-value money" id="game-player-money">0 €</span>
+                    </div>
+                </div>
+                <div class="current-bet-info">
+                    <div class="stat">
+                        <span class="stat-label">Apuesta</span>
+                        <span class="stat-value money" id="game-current-bet">0 €</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Multiplicador</span>
+                        <span class="stat-value multiplier" id="game-multiplier">x1.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-board">
+                <!-- TABLERO DE CASILLAS -->
+                <div class="board-container">
+                    <div class="board-path" id="board-path">
+                        <!-- Las casillas se generan dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- ZONA DE RESULTADOS -->
+                <div class="result-zone">
+                    <div class="current-tile">
+                        <div class="tile-display" id="tile-display">
+                            <div class="tile-hidden">?</div>
+                        </div>
+                        <p class="tile-label">Casilla actual</p>
+                    </div>
+
+                    <div class="result-message" id="result-message">
+                        <p class="message-text">¡Desvelando casilla!</p>
+                    </div>
+
+                    <div class="winnings-display">
+                        <span class="winnings-label">Ganancias actuales:</span>
+                        <span class="winnings-value money" id="current-winnings">0 €</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTROLES DE JUEGO -->
+            <div class="game-controls" id="game-controls">
+                <!-- Controles dinámicos según el estado -->
+            </div>
+
+            <!-- CONTROLES PARA AVANZAR -->
+            <div class="advance-controls hidden" id="advance-controls">
+                <div class="advance-prompt">
+                    <p class="prompt-text">¿Quieres avanzar a la siguiente casilla?</p>
+                    <p class="advance-info">
+                        Apuesta actual: <span class="money" id="advance-bet-info">0 €</span>
+                        → Nueva apuesta: <span class="money" id="advance-new-bet">0 €</span>
+                    </p>
+                </div>
+                <div class="advance-buttons">
+                    <button id="btn-advance-no" class="btn btn-secondary">
+                        No, cobrar ganancias
+                    </button>
+                    <button id="btn-advance-yes" class="btn btn-primary">
+                        ¡Avanzar!
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTROLES PARA VOLVER A APOSTAR -->
+            <div class="retry-controls hidden" id="retry-controls">
+                <div class="retry-prompt">
+                    <p class="prompt-text" id="retry-message">¡Has perdido!</p>
+                    <p class="retry-info">
+                        Pérdida: <span class="money loss" id="loss-amount">0 €</span>
+                    </p>
+                </div>
+                <div class="retry-buttons">
+                    <button id="btn-retry-no" class="btn btn-secondary">
+                        Salir del juego
+                    </button>
+                    <button id="btn-retry-yes" class="btn btn-primary">
+                        Volver a apostar
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTROLES FIN DE JUEGO -->
+            <div class="end-controls hidden" id="end-controls">
+                <div class="end-summary">
+                    <p class="end-message" id="end-message">¡Juego terminado!</p>
+                    <p class="end-info">
+                        Ganancia neta: <span class="money" id="net-result">0 €</span>
+                    </p>
+                </div>
+                <div class="end-buttons">
+                    <button id="btn-save-exit" class="btn btn-secondary">
+                        <span class="btn-icon">💾</span>
+                        Guardar y salir
+                    </button>
+                    <button id="btn-new-round" class="btn btn-primary">
+                        <span class="btn-icon">🔄</span>
+                        Nueva ronda
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE CONFIRMACIÓN -->
+        <div id="confirm-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3 id="modal-title">Confirmar</h3>
+                <p id="modal-message">¿Estás seguro?</p>
+                <div class="modal-buttons">
+                    <button id="modal-cancel" class="btn btn-secondary">Cancelar</button>
+                    <button id="modal-confirm" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTIFICACIÓN FLOTANTE -->
+        <div id="notification" class="notification hidden">
+            <span id="notification-text">Mensaje</span>
+        </div>
+    </div>
+
+    <script src="pollo.js"></script>
+</body>
+</html>
